@@ -960,6 +960,16 @@ struct _is_ctype_compatible {
         unsigned long id;
         int is_clike;
 };
+
+#ifndef _TAGLC_ID_DEFINED
+typedef struct tagLC_ID {
+	unsigned short wLanguage;
+	unsigned short wCountry;
+	unsigned short wCodePage;
+} LC_ID, *LPLC_ID;
+#define _TAGLC_ID_DEFINED
+#endif  /* _TAGLC_ID_DEFINED */
+
 typedef struct setloc_struct {
     /* getqloc static variables */
     char *pchLanguage;
