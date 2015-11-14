@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{a1b99169-8697-4eb5-9285-22730001e8b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1d314b0d-f5c5-4b5e-9950-d2e34651a000}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
+    </Filter>
+    <Filter Include="Header Files\mxtk">
+      <UniqueIdentifier>{75c78c44-2d9a-45e9-ab19-f062fe5be79c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{789b1477-84a3-466f-af0f-0fa1aae5c981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Link Libraries">
+      <UniqueIdentifier>{6e4a79a4-29b8-40e6-b46f-668867decc4a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="attachments_window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\public\bone_setup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Public\CollisionUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debugdrawmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileAssociation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\public\filesystem_helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\public\filesystem_init.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="matsyswin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mdlviewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\public\tier0\memoverride.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mxLineEdit2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pakviewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="physmesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\public\studio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="studio_flex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="studio_render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="studio_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sys_win.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewerSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Public\amd3dx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="attachments_window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\basehandle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\tier0\basetypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\bitvec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\bone_accessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\bone_setup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\bspflags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\characterset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\cmdlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\cmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\CollisionUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\commonmacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\compressed_vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\const.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\vphysics\constraints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier0\dbg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="debugdrawmodel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier0\fasttimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileAssociation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\FileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\filesystem_helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\fmtstr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\gametrace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\appframework\IAppSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\vstdlib\ICommandLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\ihandleentity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\imaterial.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\imaterialproxyfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\imaterialsystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\imaterialsystemhardwareconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\imaterialvar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\imesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\ISpatialPartition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\IStudioRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\itexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\materialsystem\materialsystem_config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\MATHLIB.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="matsyswin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mdlviewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier0\memdbgoff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier0\memdbgon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\mempool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\mouthinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pakviewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\phyfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\physdll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="physmesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier0\platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\protected_things.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\vstdlib\random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\s3_intrf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\string_t.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\vstdlib\strtools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\studio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="studio_render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StudioModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\texture_group_names.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\utlbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\utldict.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\utllinkedlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\utlmemory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\utlrbtree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\utlsymbol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier1\utlvector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vcollide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vcollide_parse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vector2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vector4d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewerSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vmatrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vphysics_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Public\vplane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\tier0\vprof.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\public\vstdlib\vstdlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mx.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxBmp.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxButton.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxCheckBox.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxChoice.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxChooseColor.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxEvent.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxFileDialog.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxGlWindow.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxGroupBox.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxImage.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxInit.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxLabel.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxLineEdit.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="mxLineEdit2.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxLinkedList.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxListBox.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxMatSysWindow.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxMenu.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxMenuBar.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxMessageBox.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxpath.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxPcx.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxPopupMenu.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxProgressBar.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxRadioButton.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxScrollbar.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxSlider.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxstring.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxTab.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxTga.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxToggleButton.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxToolTip.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxTreeView.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxWidget.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mxtk\include\mx\mxWindow.h">
+      <Filter>Header Files\mxtk</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="hlmv.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib-vc7\public\appframework.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\lib-vc7\public\bitmap.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\lib-vc7\public\mathlib.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\lib-vc7\common\mxtk.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\lib-vc7\public\tier0.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\lib-vc7\public\tier1.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+    <Library Include="..\..\lib-vc7\public\vstdlib.lib">
+      <Filter>Link Libraries</Filter>
+    </Library>
+  </ItemGroup>
+</Project>

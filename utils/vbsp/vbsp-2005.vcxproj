@@ -1,0 +1,343 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>vbsp</ProjectName>
+    <ProjectGuid>{B78B6271-B19A-4CF6-926E-40B643548E23}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <CustomBuildStep>
+      <Message>Copying</Message>
+      <Command>if exist ..\..\..\bin\"$(TargetName)".exe attrib -r ..\..\..\bin\"$(TargetName)".exe
+copy "$(TargetPath)"  ..\..\..\bin
+
+if exist ..\..\..\bin\"$(TargetName)".pdb attrib -r ..\..\..\bin\"$(TargetName)".pdb
+copy "$(TargetDir)$(TargetName).pdb" ..\..\..\bin
+
+if exist ..\..\..\bin\"$(TargetName)".map attrib -r ..\..\..\bin\"$(TargetName)".map
+if exist "$(TargetDir)""$(TargetName)".map copy "$(TargetDir)""$(TargetName)".map ..\..\..\bin\"$(TargetName)".map
+</Command>
+      <Outputs>..\..\..\bin\$(TargetName).exe;..\..\..\bin\$(TargetName).pdb;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <TypeLibraryName>.\Debug/vbsp.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\Public;..\..\Public\tier1;..\common;..\vmpi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;DEBUG;MACRO_MATHLIB;_WIN32;_CONSOLE;PROTECTED_THINGS_DISABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling />
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Debug/vbsp.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreSpecificDefaultLibraries>libcd;libc;libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/vbsp.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <CustomBuildStep>
+      <Message>Copying</Message>
+      <Command>if exist ..\..\..\bin\"$(TargetName)".exe attrib -r ..\..\..\bin\"$(TargetName)".exe
+copy "$(TargetPath)"  ..\..\..\bin
+
+if exist ..\..\..\bin\"$(TargetName)".pdb attrib -r ..\..\..\bin\"$(TargetName)".pdb
+copy "$(TargetDir)$(TargetName).pdb" ..\..\..\bin
+
+if exist ..\..\..\bin\"$(TargetName)".map attrib -r ..\..\..\bin\"$(TargetName)".map
+if exist "$(TargetDir)""$(TargetName)".map copy "$(TargetDir)""$(TargetName)".map ..\..\..\bin\"$(TargetName)".map
+</Command>
+      <Outputs>..\..\..\bin\$(TargetName).exe;..\..\..\bin\$(TargetName).pdb;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <TypeLibraryName>.\Release/vbsp.tlb</TypeLibraryName>
+      <HeaderFileName />
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\..\Public;..\..\Public\tier1;..\common;..\vmpi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;MACRO_MATHLIB;_WIN32;_CONSOLE;PROTECTED_THINGS_DISABLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling />
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader />
+      <PrecompiledHeaderOutputFile>.\Release/vbsp.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <ObjectFileName>.\Release/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <BrowseInformationFile>.\Release/</BrowseInformationFile>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>.\Release/vbsp.exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreSpecificDefaultLibraries>libc;libcd;libcmtd;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Release/vbsp.pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>.\Release/vbsp.map</MapFileName>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\public\builddisp.cpp" />
+    <ClCompile Include="..\..\Public\ChunkFile.cpp" />
+    <ClCompile Include="..\..\Public\CollisionUtils.cpp" />
+    <ClCompile Include="..\..\public\disp_common.cpp" />
+    <ClCompile Include="..\..\public\disp_powerinfo.cpp" />
+    <ClCompile Include="..\..\public\filesystem_helpers.cpp" />
+    <ClCompile Include="..\..\public\filesystem_init.cpp" />
+    <ClCompile Include="..\..\public\loadcmdline.cpp" />
+    <ClCompile Include="..\..\public\lumpfiles.cpp" />
+    <ClCompile Include="..\..\Public\ScratchPad3D.cpp" />
+    <ClCompile Include="..\..\public\tier0\memoverride.cpp" />
+    <ClCompile Include="..\..\Public\vmatrix.cpp" />
+    <ClCompile Include="..\..\public\zip_utils.cpp" />
+    <ClCompile Include="..\common\bsplib.cpp" />
+    <ClCompile Include="..\common\cmdlib.cpp" />
+    <ClCompile Include="..\common\filesystem_tools.cpp" />
+    <ClCompile Include="..\common\map_shared.cpp" />
+    <ClCompile Include="..\common\mstristrip.cpp" />
+    <ClCompile Include="..\common\pacifier.cpp" />
+    <ClCompile Include="..\common\physdll.cpp" />
+    <ClCompile Include="..\common\polylib.cpp" />
+    <ClCompile Include="..\common\scratchpad_helpers.cpp" />
+    <ClCompile Include="..\common\scriplib.cpp" />
+    <ClCompile Include="..\common\threads.cpp" />
+    <ClCompile Include="..\common\tools_minidump.cpp" />
+    <ClCompile Include="..\common\utilmatlib.cpp" />
+    <ClCompile Include="brushbsp.cpp" />
+    <ClCompile Include="csg.cpp" />
+    <ClCompile Include="cubemap.cpp" />
+    <ClCompile Include="detail.cpp" />
+    <ClCompile Include="detailObjects.cpp" />
+    <ClCompile Include="disp_ivp.cpp" />
+    <ClCompile Include="disp_vbsp.cpp" />
+    <ClCompile Include="faces.cpp" />
+    <ClCompile Include="glfile.cpp" />
+    <ClCompile Include="ivp.cpp" />
+    <ClCompile Include="leakfile.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="materialpatch.cpp" />
+    <ClCompile Include="materialsub.cpp" />
+    <ClCompile Include="nodraw.cpp" />
+    <ClCompile Include="normals.cpp" />
+    <ClCompile Include="overlay.cpp" />
+    <ClCompile Include="portals.cpp" />
+    <ClCompile Include="prtfile.cpp" />
+    <ClCompile Include="StaticProp.cpp" />
+    <ClCompile Include="textures.cpp" />
+    <ClCompile Include="tree.cpp" />
+    <ClCompile Include="vbsp.cpp" />
+    <ClCompile Include="writebsp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Public\amd3dx.h" />
+    <ClInclude Include="..\..\Public\arraystack.h" />
+    <ClInclude Include="..\..\Public\BSPFILE.H" />
+    <ClInclude Include="..\..\Public\bspflags.h" />
+    <ClInclude Include="..\..\Public\BSPTreeData.h" />
+    <ClInclude Include="..\..\public\builddisp.h" />
+    <ClInclude Include="..\..\Public\bumpvects.h" />
+    <ClInclude Include="..\..\Public\ChunkFile.h" />
+    <ClInclude Include="..\..\Public\cmodel.h" />
+    <ClInclude Include="..\..\Public\CollisionUtils.h" />
+    <ClInclude Include="..\..\Public\commonmacros.h" />
+    <ClInclude Include="..\..\Public\dbg\dbg.h" />
+    <ClInclude Include="..\..\public\disp_common.h" />
+    <ClInclude Include="..\..\public\disp_powerinfo.h" />
+    <ClInclude Include="..\..\public\disp_vertindex.h" />
+    <ClInclude Include="..\..\Public\FileSystem.h" />
+    <ClInclude Include="..\..\public\filesystem_helpers.h" />
+    <ClInclude Include="..\..\Public\GameBSPFile.h" />
+    <ClInclude Include="..\..\Public\ImageLoader.h" />
+    <ClInclude Include="..\..\Public\IScratchPad3D.h" />
+    <ClInclude Include="..\..\Public\MATHLIB.H" />
+    <ClInclude Include="..\..\Public\nmatrix.h" />
+    <ClInclude Include="..\..\Public\NTree.h" />
+    <ClInclude Include="..\..\Public\nvector.h" />
+    <ClInclude Include="..\..\Public\phyfile.h" />
+    <ClInclude Include="..\..\Public\ScratchPad3D.h" />
+    <ClInclude Include="..\..\Public\studio.h" />
+    <ClInclude Include="..\..\Public\tier0\basetypes.h" />
+    <ClInclude Include="..\..\public\tier1\interface.h" />
+    <ClInclude Include="..\..\public\tier1\tokenreader.h" />
+    <ClInclude Include="..\..\public\tier1\utlbuffer.h" />
+    <ClInclude Include="..\..\public\tier1\utllinkedlist.h" />
+    <ClInclude Include="..\..\public\tier1\utlmemory.h" />
+    <ClInclude Include="..\..\public\tier1\utlrbtree.h" />
+    <ClInclude Include="..\..\public\tier1\utlsymbol.h" />
+    <ClInclude Include="..\..\public\tier1\utlvector.h" />
+    <ClInclude Include="..\..\Public\vcollide.h" />
+    <ClInclude Include="..\..\Public\vector.h" />
+    <ClInclude Include="..\..\Public\vector2d.h" />
+    <ClInclude Include="..\..\Public\vector4d.h" />
+    <ClInclude Include="..\..\Public\vmatrix.h" />
+    <ClInclude Include="..\..\Public\vphysics_interface.h" />
+    <ClInclude Include="..\..\Public\vplane.h" />
+    <ClInclude Include="..\..\Public\wadtypes.h" />
+    <ClInclude Include="..\..\Public\worldsize.h" />
+    <ClInclude Include="..\common\bsplib.h" />
+    <ClInclude Include="..\common\cmdlib.h" />
+    <ClInclude Include="..\common\FileSystem_Tools.h" />
+    <ClInclude Include="..\common\map_shared.h" />
+    <ClInclude Include="..\common\mstristrip.h" />
+    <ClInclude Include="..\common\pacifier.h" />
+    <ClInclude Include="..\common\physdll.h" />
+    <ClInclude Include="..\common\polylib.h" />
+    <ClInclude Include="..\common\qfiles.h" />
+    <ClInclude Include="..\common\scratchpad_helpers.h" />
+    <ClInclude Include="..\common\scriplib.h" />
+    <ClInclude Include="..\common\threads.h" />
+    <ClInclude Include="..\common\tools_minidump.h" />
+    <ClInclude Include="..\common\utilmatlib.h" />
+    <ClInclude Include="..\common\zip_uncompressed.h" />
+    <ClInclude Include="..\vmpi\vmpi.h" />
+    <ClInclude Include="csg.h" />
+    <ClInclude Include="detail.h" />
+    <ClInclude Include="disp_ivp.h" />
+    <ClInclude Include="disp_lightmap_alpha.h" />
+    <ClInclude Include="disp_vbsp.h" />
+    <ClInclude Include="faces.h" />
+    <ClInclude Include="ivp.h" />
+    <ClInclude Include="map.h" />
+    <ClInclude Include="materialpatch.h" />
+    <ClInclude Include="materialsub.h" />
+    <ClInclude Include="vbsp.h" />
+    <ClInclude Include="writebsp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib\public\bitmap.lib" />
+    <Library Include="..\..\lib\public\mathlib.lib" />
+    <CustomBuild Include="..\..\lib\public\tier0.lib">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+    </CustomBuild>
+    <Library Include="..\..\lib\public\tier1.lib" />
+    <Library Include="..\..\lib\public\tier2.lib" />
+    <CustomBuild Include="..\..\lib\public\vstdlib.lib">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+    </CustomBuild>
+    <CustomBuild Include="..\..\lib\public\vtf.lib">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </Command>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\mathlib\mathlib-2005.vcxproj">
+      <Project>{e1da9fb8-fb4c-4b14-91a6-98bced6b9720}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\tier1\tier1-2005.vcxproj">
+      <Project>{e1da8db8-fb4c-4b14-91a6-98bced6b9720}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
