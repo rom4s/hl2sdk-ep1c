@@ -48,6 +48,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "phonemeextractor", "utils\p
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hlmv", "utils\hlmv\hlmv-2005.vcxproj", "{F3704DBF-8055-413C-B027-399E5DBCA4DD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "choreoobjects", "choreoobjects\choreoobjects-2005.vcxproj", "{0A940BE3-0C70-4D6F-A9F8-C39B483E3796}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -146,6 +148,10 @@ Global
 		{F3704DBF-8055-413C-B027-399E5DBCA4DD}.Debug|Win32.Build.0 = Debug|Win32
 		{F3704DBF-8055-413C-B027-399E5DBCA4DD}.Release|Win32.ActiveCfg = Release|Win32
 		{F3704DBF-8055-413C-B027-399E5DBCA4DD}.Release|Win32.Build.0 = Release|Win32
+		{0A940BE3-0C70-4D6F-A9F8-C39B483E3796}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A940BE3-0C70-4D6F-A9F8-C39B483E3796}.Debug|Win32.Build.0 = Debug|Win32
+		{0A940BE3-0C70-4D6F-A9F8-C39B483E3796}.Release|Win32.ActiveCfg = Release|Win32
+		{0A940BE3-0C70-4D6F-A9F8-C39B483E3796}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
