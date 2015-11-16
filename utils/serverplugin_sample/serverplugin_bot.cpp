@@ -18,7 +18,7 @@
 
 #include "eiface.h"
 #include "edict.h"
-#include "dlls/iplayerinfo.h"
+#include "game/server/iplayerinfo.h"
 #include "igameevents.h"
 #include "convar.h"
 #include "vstdlib/random.h"

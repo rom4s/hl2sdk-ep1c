@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\common,..\public,..\public\tier1,..\game_shared"
+				AdditionalIncludeDirectories="..\common,..\public,..\public\tier1,..\game\shared"
 				PreprocessorDefinitions="_WIN32;_DEBUG;_LIB;CHOREOOBJECTS_STATIC_LIB"
 				MinimalRebuild="true"
 				ExceptionHandling="1"
@@ -115,7 +115,7 @@
 				InlineFunctionExpansion="2"
 				EnableIntrinsicFunctions="true"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\common,..\public,..\public\tier1,..\game_shared"
+				AdditionalIncludeDirectories="..\common,..\public,..\public\tier1,..\game\shared"
 				PreprocessorDefinitions="_WIN32;NDEBUG;_LIB;CHOREOOBJECTS_STATIC_LIB;_SECURE_SCL=0"
 				StringPooling="true"
 				ExceptionHandling="1"
@@ -169,19 +169,19 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\game_shared\choreoactor.cpp"
+				RelativePath="..\game\shared\choreoactor.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\game_shared\choreochannel.cpp"
+				RelativePath="..\game\shared\choreochannel.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\game_shared\choreoevent.cpp"
+				RelativePath="..\game\shared\choreoevent.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\game_shared\choreoscene.cpp"
+				RelativePath="..\game\shared\choreoscene.cpp"
 				>
 			</File>
 		</Filter>
@@ -191,19 +191,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\game_shared\choreoactor.h"
+				RelativePath="..\game\shared\choreoactor.h"
 				>
 			</File>
 			<File
-				RelativePath="..\game_shared\choreochannel.h"
+				RelativePath="..\game\shared\choreochannel.h"
 				>
 			</File>
 			<File
-				RelativePath="..\game_shared\choreoevent.h"
+				RelativePath="..\game\shared\choreoevent.h"
 				>
 			</File>
 			<File
-				RelativePath="..\game_shared\choreoscene.h"
+				RelativePath="..\game\shared\choreoscene.h"
 				>
 			</File>
 		</Filter>
