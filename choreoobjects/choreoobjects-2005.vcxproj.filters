@@ -11,30 +11,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\game_shared\choreoactor.cpp">
+    <ClCompile Include="..\game\shared\choreoactor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\game_shared\choreochannel.cpp">
+    <ClCompile Include="..\game\shared\choreochannel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\game_shared\choreoevent.cpp">
+    <ClCompile Include="..\game\shared\choreoevent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\game_shared\choreoscene.cpp">
+    <ClCompile Include="..\game\shared\choreoscene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\game_shared\choreoactor.h">
+    <ClInclude Include="..\game\shared\choreoactor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\game_shared\choreochannel.h">
+    <ClInclude Include="..\game\shared\choreochannel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\game_shared\choreoevent.h">
+    <ClInclude Include="..\game\shared\choreoevent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\game_shared\choreoscene.h">
+    <ClInclude Include="..\game\shared\choreoscene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

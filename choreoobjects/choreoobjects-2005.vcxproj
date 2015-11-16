@@ -53,7 +53,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\common;..\public;..\public\tier1;..\game_shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\public;..\public\tier1;..\game\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;_DEBUG;_LIB;CHOREOOBJECTS_STATIC_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -82,7 +82,7 @@ if exist ..\..\..\lib\public\msvc7\choreoobjects.pdb attrib -r ..\..\..\lib\publ
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\common;..\public;..\public\tier1;..\game_shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\public;..\public\tier1;..\game\shared;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WIN32;NDEBUG;_LIB;CHOREOOBJECTS_STATIC_LIB;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -105,16 +105,16 @@ if exist ..\..\..\lib\public\msvc7\choreoobjects.pdb attrib -r ..\..\..\lib\publ
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\game_shared\choreoactor.cpp" />
-    <ClCompile Include="..\game_shared\choreochannel.cpp" />
-    <ClCompile Include="..\game_shared\choreoevent.cpp" />
-    <ClCompile Include="..\game_shared\choreoscene.cpp" />
+    <ClCompile Include="..\game\shared\choreoactor.cpp" />
+    <ClCompile Include="..\game\shared\choreochannel.cpp" />
+    <ClCompile Include="..\game\shared\choreoevent.cpp" />
+    <ClCompile Include="..\game\shared\choreoscene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\game_shared\choreoactor.h" />
-    <ClInclude Include="..\game_shared\choreochannel.h" />
-    <ClInclude Include="..\game_shared\choreoevent.h" />
-    <ClInclude Include="..\game_shared\choreoscene.h" />
+    <ClInclude Include="..\game\shared\choreoactor.h" />
+    <ClInclude Include="..\game\shared\choreochannel.h" />
+    <ClInclude Include="..\game\shared\choreoevent.h" />
+    <ClInclude Include="..\game\shared\choreoscene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
