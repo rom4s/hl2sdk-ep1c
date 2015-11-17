@@ -4201,7 +4201,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\public\cl_dll\iviewport.h"
+				RelativePath="..\..\public\game\client\iviewport.h"
 				>
 			</File>
 			<File

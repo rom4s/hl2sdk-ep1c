@@ -3167,7 +3167,7 @@ if exist &quot;$(TargetDir)&quot;client.pdb copy &quot;$(TargetDir)&quot;client.
 				RelativePath="ivieweffects.h">
 			</File>
 			<File
-				RelativePath="..\..\public\cl_dll\iviewport.h">
+				RelativePath="..\..\public\game\client\iviewport.h">
 			</File>
 			<File
 				RelativePath="iviewrender.h">

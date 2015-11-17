@@ -2427,7 +2427,7 @@
     <ClInclude Include="ivieweffects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\public\cl_dll\iviewport.h">
+    <ClInclude Include="..\..\public\game\client\iviewport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="iviewrender.h">
