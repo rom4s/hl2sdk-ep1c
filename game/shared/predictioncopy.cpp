@@ -1271,7 +1271,7 @@ static typedescription_t *FindFieldByName_R( const char *fieldname, datamap_t *d
 	return NULL;
 }
 
-static void ValidateChains_R( datamap_t *dmap )
+void ValidateChains_R( datamap_t *dmap )
 {
 	dmap->chains_validated = true;
 

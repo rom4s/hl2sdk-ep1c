@@ -13,7 +13,7 @@
 
 #include <vgui_controls/Frame.h>
 #include <game/client/iviewport.h>
-#include <igameevents.h>
+#include "GameEventListener.h"
 
 #define TYPE_NOTEAM			0	// NOTEAM must be zero :)
 #define TYPE_TEAM			1	// a section for a single team	
@@ -24,7 +24,7 @@
 //-----------------------------------------------------------------------------
 // Purpose: Game ScoreBoard
 //-----------------------------------------------------------------------------
-class CClientScoreBoardDialog : public vgui::Frame, public IViewPortPanel, public IGameEventListener2
+class CClientScoreBoardDialog : public vgui::Frame, public IViewPortPanel, public CGameEventListener
 {
 private:
 	DECLARE_CLASS_SIMPLE( CClientScoreBoardDialog, vgui::Frame );
@@ -81,6 +81,7 @@ protected:
 	int s_VoiceImage[5];
 	int TrackerImage;
 	int	m_HLTVSpectators;
+	float		m_fNextUpdateTime;
 
 	void MoveLabelToFront(const char *textEntryName);
 
@@ -88,7 +89,6 @@ private:
 	int			m_iPlayerIndexSymbol;
 	int			m_iDesiredHeight;
 	IViewPort	*m_pViewPort;
-	float		m_fNextUpdateTime;
 
 
 

@@ -600,7 +600,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		if ( !hudChat )
 			return;
 
-		hudChat->Printf( "%s has joined the game\n", event->GetString("name") );
+		hudChat->Printf( CHAT_FILTER_JOINLEAVE, "%s has joined the game\n", event->GetString("name") );
 	}
 	else if ( Q_strcmp( "player_disconnect", eventname ) == 0 )
 	{
@@ -609,9 +609,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		if ( !hudChat || !pPlayer )
 			return;
 
-		hudChat->Printf( "%s left the game (%s)\n", 
-			pPlayer->GetPlayerName(),
-			event->GetString("reason") );
+		hudChat->Printf( CHAT_FILTER_JOINLEAVE, "%s left the game (%s)\n", pPlayer->GetPlayerName(), event->GetString("reason") );
 	}
 	else if ( Q_strcmp( "player_team", eventname ) == 0 )
 	{
@@ -631,11 +629,11 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		C_Team *pTeam = GetGlobalTeam( team );
 		if ( pTeam )
 		{
-			hudChat->Printf( "Player %s joined team %s\n", pPlayer->GetPlayerName(), pTeam->Get_Name() );
+			hudChat->Printf( CHAT_FILTER_TEAMCHANGE, "Player %s joined team %s\n", pPlayer->GetPlayerName(), pTeam->Get_Name() );
 		}
 		else
 		{
-			hudChat->Printf( "Player %s joined team %i\n", pPlayer->GetPlayerName(), team );
+			hudChat->Printf( CHAT_FILTER_TEAMCHANGE, "Player %s joined team %i\n", pPlayer->GetPlayerName(), team );
 		}
 
 		if ( pPlayer->IsLocalPlayer() )
@@ -649,14 +647,12 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 		if ( !hudChat )
 			return;
 
-		hudChat->Printf( "%s changed name to %s\n", 
-			event->GetString( "oldname" ),
-			event->GetString( "newname" ) );
+		hudChat->Printf( CHAT_FILTER_NAMECHANGE, "%s changed name to %s\n", event->GetString( "oldname" ), event->GetString( "newname" ) );
 	}
 	
 	else if ( Q_strcmp( "server_cvar", eventname ) == 0 )
 	{
-		hudChat->Printf( "Server cvar \"%s\" changed to %s\n", event->GetString("cvarname"), event->GetString("cvarvalue") );
+		hudChat->Printf( CHAT_FILTER_SERVERMSG, "Server cvar \"%s\" changed to %s\n", event->GetString("cvarname"), event->GetString("cvarvalue") );
 	}
 
 	else

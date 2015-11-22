@@ -48,14 +48,26 @@ ConVar spec_scoreboard( "spec_scoreboard", "0", FCVAR_CLIENTDLL | FCVAR_ARCHIVE 
 
 CSpectatorGUI *g_pSpectatorGUI = NULL;
 
-static char *s_SpectatorModes[] = { "#Spec_Mode0", "#Spec_Mode1", "#Spec_Mode2", "#Spec_Mode3", "#Spec_Mode4", "#Spec_Mode5", "" };
+
+// NB disconnect between localization text and observer mode enums
+static const char *s_SpectatorModes[] =
+{
+	"#Spec_Mode0",	// 	OBS_MODE_NONE = 0,	
+	"#Spec_Mode1",	// 	OBS_MODE_DEATHCAM,	
+	"",				// 	OBS_MODE_FREEZECAM,	
+	"#Spec_Mode2",	// 	OBS_MODE_FIXED,		
+	"#Spec_Mode3",	// 	OBS_MODE_IN_EYE,	
+	"#Spec_Mode4",	// 	OBS_MODE_CHASE,		
+	"#Spec_Mode_POI",	// 	OBS_MODE_POI, PASSTIME
+	"#Spec_Mode5",	// 	OBS_MODE_ROAMING,	
+};
 
 using namespace vgui;
 
 ConVar cl_spec_mode(
 	"cl_spec_mode",
 	"1",
-	FCVAR_ARCHIVE | FCVAR_USERINFO,
+	FCVAR_ARCHIVE | FCVAR_USERINFO | FCVAR_SERVER_CAN_EXECUTE,
 	"spectator mode" );
 
 

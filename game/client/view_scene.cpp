@@ -4476,7 +4476,7 @@ static void CheapWaterEnd_f( void )
 //-----------------------------------------------------------------------------
 // A console command allowing you to draw a material as an overlay
 //-----------------------------------------------------------------------------
-static void ScreenOverlay_f( void )
+CON_COMMAND_F( r_screenoverlay, "Draw specified material as an overlay", FCVAR_CHEAT|FCVAR_SERVER_CAN_EXECUTE )
 {
 	if( engine->Cmd_Argc() == 2 )
 	{
@@ -4692,6 +4692,5 @@ static ConCommand mat_viewTexture("mat_viewTexture", ViewTexture_f, "Show/Hide t
 
 static ConCommand r_cheapwaterstart( "r_cheapwaterstart", CheapWaterStart_f );
 static ConCommand r_cheapwaterend( "r_cheapwaterend", CheapWaterEnd_f );
-static ConCommand r_screenspacematerial( "r_screenoverlay", ScreenOverlay_f );
 
 

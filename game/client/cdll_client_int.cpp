@@ -1070,14 +1070,14 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 	// don't set direct because of FCVAR_USERINFO
 	if ( (gpGlobals->maxClients > 1) && !engine->IsHLTV() )
 	{
-		if ( !cl_predict.GetBool() )
+		if ( !cl_predict->GetBool() )
 		{
 			engine->ClientCmd( "cl_predict 1" );
 		}
 	}
 	else
 	{
-		if ( cl_predict.GetBool() )
+		if ( cl_predict->GetBool() )
 		{
 			engine->ClientCmd( "cl_predict 0" );
 		}

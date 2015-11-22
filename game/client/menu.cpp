@@ -42,7 +42,7 @@ DECLARE_HUD_MESSAGE( CHudMenu, ShowMenu );
 //-----------------------------------------------------
 //
 
-char* ConvertCRtoNL( char *str )
+static char* ConvertCRtoNL( char *str )
 {
 	for ( char *ch = str; *ch != 0; ch++ )
 		if ( *ch == '\r' )

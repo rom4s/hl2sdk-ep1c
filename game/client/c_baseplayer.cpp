@@ -1981,7 +1981,7 @@ void C_BasePlayer::NotePredictionError( const Vector &vDelta )
 void C_BasePlayer::GetPredictionErrorSmoothingVector( Vector &vOffset )
 {
 #if !defined( NO_ENTITY_PREDICTION )
-	if ( engine->IsPlayingDemo() || !cl_smooth.GetInt() || !cl_predict.GetBool() )
+	if ( engine->IsPlayingDemo() || !cl_smooth.GetInt() || !cl_predict->GetBool() )
 	{
 		vOffset.Init();
 		return;

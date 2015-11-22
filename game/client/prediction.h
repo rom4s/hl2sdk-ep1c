@@ -15,6 +15,7 @@
 #include "vector.h"
 #include "iprediction.h"
 #include "c_baseplayer.h"
+#include "cdll_bounded_cvars.h"
 
 class CMoveData;
 class CUserCmd;
@@ -145,10 +146,6 @@ private:
 	float			m_flIdealPitch;
 
 };
- 
-#if !defined( NO_ENTITY_PREDICTION )
-extern ConVar	cl_predict;
-#endif
 
 extern CPrediction *prediction;
 

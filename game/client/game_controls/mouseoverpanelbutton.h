@@ -107,6 +107,8 @@ public:
 		m_pPanel->LoadControlSettings( GetClassPage( GetName() ) );
 	}		
 
+	T *GetClassPanel( void ) { return m_pPanel; }
+
 private:
 
 	virtual void OnCursorEntered() 

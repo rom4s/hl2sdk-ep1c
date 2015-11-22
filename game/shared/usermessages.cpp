@@ -101,7 +101,7 @@ void CUserMessages::Register( const char *name, int size )
 	int idx = m_UserMessages.Find( name );
 	if ( idx != m_UserMessages.InvalidIndex() )
 	{
-		Error( "CUserMessages::Register '%' already registered\n", name );
+		Error( "CUserMessages::Register '%s' already registered\n", name );
 	}
 
 	CUserMessage * entry = new CUserMessage;
@@ -122,6 +122,7 @@ void CUserMessages::HookMessage( const char *name, pfnUserMsgHook hook )
 	Assert( name );
 	Assert( hook );
 
+	Warning("\n\n>>>>>CUserMessages::HookMessage( %s );\n\n\n", name);
 	int idx = m_UserMessages.Find( name );
 	if ( idx == m_UserMessages.InvalidIndex() )
 	{
@@ -129,7 +130,6 @@ void CUserMessages::HookMessage( const char *name, pfnUserMsgHook hook )
 		Assert( 0 );
 		return;
 	}
-
 	int i = m_UserMessages[ idx ]->clienthooks.AddToTail();
 	m_UserMessages[ idx ]->clienthooks[i] = hook;
 

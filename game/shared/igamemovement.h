@@ -71,8 +71,33 @@ public:
 	float			m_flConstraintRadius;
 	float			m_flConstraintWidth;
 	float			m_flConstraintSpeedFactor;
+
+	void			SetAbsOrigin( const Vector &vec );
+	const Vector	&GetAbsOrigin() const;
 };
 
+inline const Vector &CMoveData::GetAbsOrigin() const
+{
+	return m_vecAbsOrigin;
+}
+
+#if !defined( CLIENT_DLL ) && defined( _DEBUG )
+// We only ever want this code path on the server side in a debug build
+//  and you have to uncomment the code below and rebuild to have the test operate.
+//#define PLAYER_GETTING_STUCK_TESTING
+
+#endif
+
+#if !defined( PLAYER_GETTING_STUCK_TESTING )
+
+// This is implemented with a more exhaustive test in gamemovement.cpp.  We check if the origin being requested is
+//  inside solid, which it never should be
+inline void CMoveData::SetAbsOrigin( const Vector &vec )
+{
+	m_vecAbsOrigin = vec;
+}
+
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: The basic player movement interface

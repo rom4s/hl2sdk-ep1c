@@ -75,9 +75,9 @@
 #define FCVAR_ARCHIVE_XBOX		(1<<24) // cvar written to config.cfg on the Xbox
 
 
-// #define FCVAR_AVAILABLE			(1<<28)
-// #define FCVAR_AVAILABLE			(1<<29)
-// #define FCVAR_AVAILABLE			(1<<30)
+#define FCVAR_SERVER_CAN_EXECUTE	(1<<28)// the server is allowed to execute this command on clients via ClientCommand/NET_StringCmd/CBaseClientState::ProcessStringCmd.
+#define FCVAR_SERVER_CANNOT_QUERY	(1<<29)// If this is set, then the server is not allowed to query this cvar's value (via IServerPluginHelpers::StartQueryCvarValue).
+#define FCVAR_CLIENTCMD_CAN_EXECUTE	(1<<30)	// IVEngineClient::ClientCmd is allowed to execute this command. 
 // #define FCVAR_AVAILABLE			(1<<31)
 
 

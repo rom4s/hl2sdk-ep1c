@@ -386,7 +386,7 @@ void C_SoundscapeSystem::Shutdown()
 
 // NOTE: This will not flush the server side so you cannot add or remove
 // soundscapes from the list, only change their parameters!!!!
-CON_COMMAND(cl_soundscape_flush, "Flushes the client side soundscapes")
+CON_COMMAND_F(cl_soundscape_flush, "Flushes the client side soundscapes", FCVAR_SERVER_CAN_EXECUTE|FCVAR_CHEAT)
 {
 	// save the current soundscape
 	audioparams_t tmp;
@@ -1046,10 +1046,15 @@ void C_SoundscapeSystem::ProcessPlaySoundscape( KeyValues *pPlaySoundscape, subs
 		{
 			pSoundscapeName = pKey->GetString();
 		}
+		else if ( !Q_strcasecmp(pKey->GetName(), "soundlevel") )
+		{
+			DevMsg( 1, "soundlevel not supported on sub-soundscapes\n" );
+		}
 		else
 		{
-			DevMsg( 1, "Playsoundscape %s:Unknown command %s\n", pPlaySoundscape->GetName(), pKey->GetName() );
+			DevMsg( 1, "Playsoundscape %s: Unknown command %s\n", pSoundscapeName ? pSoundscapeName : pPlaySoundscape->GetName(), pKey->GetName() );
 		}
+
 		pKey = pKey->GetNextKey();
 	}
 

@@ -205,6 +205,8 @@ extern ISaveRestoreOps *eventFuncs;
 
 #define FTYPEDESC_MODELINDEX		0x0800				// The field is a model index (used for debugging output)
 
+#define FTYPEDESC_VIEW_NEVER			0x8000		// Never show this field to anyone, even the local player (unusual)
+
 #define TD_MSECTOLERANCE		0.001f		// This is a FIELD_FLOAT and should only be checked to be within 0.001 of the networked info
 
 struct typedescription_t;

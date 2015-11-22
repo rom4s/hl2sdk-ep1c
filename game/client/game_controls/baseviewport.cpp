@@ -161,11 +161,11 @@ void CBaseViewport::OnScreenSizeChanged(int iOldWide, int iOldTall)
 void CBaseViewport::CreateDefaultPanels( void )
 {
 #ifndef _XBOX
-	AddNewPanel( CreatePanelByName( PANEL_SCOREBOARD ) );
-	AddNewPanel( CreatePanelByName( PANEL_INFO ) );
-	AddNewPanel( CreatePanelByName( PANEL_SPECGUI ) );
-	AddNewPanel( CreatePanelByName( PANEL_SPECMENU ) );
-	AddNewPanel( CreatePanelByName( PANEL_NAV_PROGRESS ) );
+	AddNewPanel( CreatePanelByName( PANEL_SCOREBOARD ), "PANEL_SCOREBOARD" );
+	AddNewPanel( CreatePanelByName( PANEL_INFO ), "PANEL_INFO" );
+	AddNewPanel( CreatePanelByName( PANEL_SPECGUI ), "PANEL_SPECGUI" );
+	AddNewPanel( CreatePanelByName( PANEL_SPECMENU ), "PANEL_SPECMENU" );
+	AddNewPanel( CreatePanelByName( PANEL_NAV_PROGRESS ), "PANEL_NAV_PROGRESS" );
 	// AddNewPanel( CreatePanelByName( PANEL_TEAM ) );
 	// AddNewPanel( CreatePanelByName( PANEL_CLASS ) );
 	// AddNewPanel( CreatePanelByName( PANEL_BUY ) );
@@ -227,11 +227,11 @@ IViewPortPanel* CBaseViewport::CreatePanelByName(const char *szPanelName)
 }
 
 
-bool CBaseViewport::AddNewPanel( IViewPortPanel* pPanel )
+bool CBaseViewport::AddNewPanel( IViewPortPanel* pPanel, char const *pchDebugName )
 {
 	if ( !pPanel )
 	{
-		DevMsg("CBaseViewport::AddNewPanel: NULL panel.\n" );
+		DevMsg("CBaseViewport::AddNewPanel(%s): NULL panel.\n", !pchDebugName ? "" : pchDebugName );
 		return false;
 	}
 
