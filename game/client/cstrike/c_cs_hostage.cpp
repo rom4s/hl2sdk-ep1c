@@ -253,7 +253,7 @@ bool C_CHostage::ShouldDraw( void )
 }
 
 //-----------------------------------------------------------------------------
-C_BaseAnimating * C_CHostage::BecomeRagdollOnClient()
+C_BaseAnimating * C_CHostage::BecomeRagdollOnClient( bool bCopyEntity )
 {
 	if ( g_RagdollLVManager.IsLowViolence() )
 	{

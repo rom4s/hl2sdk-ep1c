@@ -1870,7 +1870,7 @@ void C_CSPlayer::BuildTransformations( CStudioHdr *pHdr, Vector *pos, Quaternion
 }
 
 
-C_BaseAnimating * C_CSPlayer::BecomeRagdollOnClient()
+C_BaseAnimating * C_CSPlayer::BecomeRagdollOnClient( bool bCopyEntity )
 {
 	return NULL;
 }
