@@ -58,6 +58,8 @@ static ConVar m_mouseaccel1( "m_mouseaccel1", "0", FCVAR_ARCHIVE, "Windows mouse
 static ConVar m_mouseaccel2( "m_mouseaccel2", "0", FCVAR_ARCHIVE, "Windows mouse acceleration secondary threshold (4x movement).", true, 0, false, 0.0f );
 static ConVar m_mousespeed( "m_mousespeed", "1", FCVAR_ARCHIVE, "Windows mouse speed factor (range 1 to 20).", true, 1, true, 20 );
 
+static ConVar m_rawinput("m_rawinput", "0", FCVAR_ARCHIVE, "Use Raw Input for mouse input.");
+
 ConVar cl_mouselook( "cl_mouselook", "1", FCVAR_ARCHIVE | FCVAR_NOT_CONNECTED, "Set to 1 to use mouse for look, 0 for keyboard look. Cannot be set while connected to a server." );
 
 ConVar cl_mouseenable( "cl_mouseenable", "1" );
@@ -176,6 +178,40 @@ void CInput::CheckMouseAcclerationVars()
 	}
 }
 
+// TODO: Move to inputsystem
+static WNDPROC s_ChainedWndProc = NULL;
+static int s_mx = 0;
+static int s_my = 0;
+
+static LRESULT CALLBACK MouseInputSystemWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (uMsg == WM_INPUT)
+	{
+		UINT dwSize;
+		GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+
+		LPBYTE lpb = new BYTE[dwSize];
+		if (lpb == NULL)
+			return s_ChainedWndProc(hwnd, uMsg, wParam, lParam);
+
+		if (GetRawInputData((HRAWINPUT)lParam, RID_INPUT, lpb, &dwSize, sizeof(RAWINPUTHEADER)) != dwSize)
+			DevWarning(1, "*** GetRawInputData does not return correct size!\n");
+
+		RAWINPUT* raw = (RAWINPUT*)lpb;
+
+		if (raw->header.dwType == RIM_TYPEMOUSE)
+		{
+			s_mx = raw->data.mouse.lLastX;
+			s_my = raw->data.mouse.lLastY;
+		}
+
+		delete[] lpb;
+
+		return s_ChainedWndProc(hwnd, uMsg, wParam, lParam);
+	}
+	return s_ChainedWndProc(hwnd, uMsg, wParam, lParam);
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: One-time initialization
 //-----------------------------------------------------------------------------
@@ -216,6 +252,23 @@ void CInput::Init_Mouse (void)
 				m_rgCheckMouseParam[ MOUSE_ACCEL_THRESHHOLD2 ] = true;
 			}
 		}
+	}
+
+	if (s_ChainedWndProc == NULL)
+	{
+		HWND hWnd = GetFocus();
+		s_ChainedWndProc = (WNDPROC)GetWindowLongPtr(hWnd, GWLP_WNDPROC);
+		SetWindowLongPtr( (HWND)hWnd, GWLP_WNDPROC, (LONG_PTR)MouseInputSystemWindowProc );
+
+		RAWINPUTDEVICE Rid[1];
+
+		Rid[0].usUsagePage = 0x01;
+		Rid[0].usUsage = 0x02;
+		Rid[0].dwFlags = 0x00;
+		Rid[0].hwndTarget = hWnd;
+
+		if (RegisterRawInputDevices(Rid, 1, sizeof(Rid[0])) == FALSE)
+			DevWarning(1, "*** RegisterRawInputDevices failed!\n");
 	}
 
 	m_nMouseButtons = MOUSE_BUTTON_COUNT;
@@ -288,6 +341,16 @@ void CInput::GetAccumulatedMouseDeltasAndResetAccumulators( float *mx, float *my
 
 	*mx = m_flAccumulatedMouseXMovement;
 	*my = m_flAccumulatedMouseYMovement;
+
+	if ( m_rawinput.GetBool() )
+	{
+		*mx = s_mx;
+		*my = s_my;
+
+		// TODO: Move to inputsystem
+		s_mx = 0;
+		s_my = 0;
+	}
 
 	m_flAccumulatedMouseXMovement = 0;
 	m_flAccumulatedMouseYMovement = 0;
@@ -439,6 +502,11 @@ void CInput::AccumulateMouse( void )
 	}
 
 	if( !cl_mouselook.GetBool() )
+	{
+		return;
+	}
+
+	if ( m_rawinput.GetBool() )
 	{
 		return;
 	}
