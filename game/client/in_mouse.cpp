@@ -68,6 +68,11 @@ ConVar cl_mouseenable( "cl_mouseenable", "1" );
 void GetVGUICursorPos( int& x, int& y );
 void SetVGUICursorPos( int x, int y );
 
+// TODO: Move to inputsystem
+static WNDPROC s_ChainedWndProc = NULL;
+static int s_mx = 0;
+static int s_my = 0;
+
 //-----------------------------------------------------------------------------
 // Purpose: Hides cursor and starts accumulation/re-centering
 //-----------------------------------------------------------------------------
@@ -89,6 +94,10 @@ void CInput::ActivateMouse (void)
 		// Clear accumulated error, too
 		m_flAccumulatedMouseXMovement = 0;
 		m_flAccumulatedMouseYMovement = 0;
+
+		// TODO: Move to inputsystem (GetRawMouseAccumulators)
+		s_mx = 0;
+		s_my = 0;
 	}
 }
 
@@ -179,10 +188,6 @@ void CInput::CheckMouseAcclerationVars()
 }
 
 // TODO: Move to inputsystem
-static WNDPROC s_ChainedWndProc = NULL;
-static int s_mx = 0;
-static int s_my = 0;
-
 static LRESULT CALLBACK MouseInputSystemWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	if (uMsg == WM_INPUT)
@@ -201,8 +206,8 @@ static LRESULT CALLBACK MouseInputSystemWindowProc(HWND hwnd, UINT uMsg, WPARAM 
 
 		if (raw->header.dwType == RIM_TYPEMOUSE)
 		{
-			s_mx = raw->data.mouse.lLastX;
-			s_my = raw->data.mouse.lLastY;
+			s_mx += raw->data.mouse.lLastX;
+			s_my += raw->data.mouse.lLastY;
 		}
 
 		delete[] lpb;
@@ -344,10 +349,10 @@ void CInput::GetAccumulatedMouseDeltasAndResetAccumulators( float *mx, float *my
 
 	if ( m_rawinput.GetBool() )
 	{
-		*mx = s_mx;
-		*my = s_my;
+		*mx = (float)s_mx;
+		*my = (float)s_my;
 
-		// TODO: Move to inputsystem
+		// TODO: Move to inputsystem (GetRawMouseAccumulators)
 		s_mx = 0;
 		s_my = 0;
 	}
@@ -680,4 +685,8 @@ void CInput::ClearStates (void)
 	m_flAccumulatedMouseXMovement = 0;
 	m_flAccumulatedMouseYMovement = 0;
 	m_nMouseOldButtons = 0;
+
+	// TODO: Move to inputsystem (GetRawMouseAccumulators)
+	s_mx = 0;
+	s_my = 0;
 }
