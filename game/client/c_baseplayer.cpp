@@ -1525,7 +1525,8 @@ C_BaseViewModel *C_BasePlayer::GetViewModel( int index /*= 0*/ )
 	{
 		C_BasePlayer *target =  ToBasePlayer( GetObserverTarget() );
 
-		if ( target && target != this )
+		// get the targets viewmodel unless the target is an observer itself
+		if ( target && target != this && !target->IsObserver() )
 		{
 			vm = target->GetViewModel( index );
 		}
@@ -1750,7 +1751,8 @@ float C_BasePlayer::GetFOV( void )
 	{
 		C_BasePlayer *pTargetPlayer = dynamic_cast<C_BasePlayer*>( GetObserverTarget() );
 
-		if ( pTargetPlayer )
+		// get fov from observer target. Not if target is observer itself
+		if ( pTargetPlayer && !pTargetPlayer->IsObserver() )
 		{
 			return pTargetPlayer->GetFOV();
 		}

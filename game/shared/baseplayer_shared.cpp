@@ -1608,7 +1608,7 @@ int CBasePlayer::GetDefaultFOV( void ) const
 	{
 		C_BasePlayer *pTargetPlayer = dynamic_cast<C_BasePlayer*>( GetObserverTarget() );
 
-		if ( pTargetPlayer )
+		if ( pTargetPlayer && !pTargetPlayer->IsObserver() )
 		{
 			return pTargetPlayer->GetDefaultFOV();
 		}
