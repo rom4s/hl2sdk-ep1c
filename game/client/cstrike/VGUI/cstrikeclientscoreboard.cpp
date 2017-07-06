@@ -199,7 +199,11 @@ void CCSClientScoreBoardDialog::UpdateTeamInfo()
 			int numcounted = 0;
 			for( int playerIndex = 1 ; playerIndex <= MAX_PLAYERS; playerIndex++ )
 			{
+#ifdef _CLIENT_ADD
+				if( g_PR->IsConnected( playerIndex ) && GetSectionFromTeamNumber( g_PR->GetTeam( playerIndex ) ) == sectionID )
+#else
 				if( teamIndex > TEAM_SPECTATOR && g_PR->IsConnected( playerIndex ) && g_PR->GetTeam( playerIndex ) == teamIndex )
+#endif // _CLIENT_ADD
 				{
 					int ping = g_PR->GetPing( playerIndex );
 
@@ -211,7 +215,11 @@ void CCSClientScoreBoardDialog::UpdateTeamInfo()
 				}
 			}
 
+#ifdef _CLIENT_ADD
+			if ( numcounted > 0 )
+#else
 			if ( numcounted > 0	&& teamIndex > TEAM_SPECTATOR )
+#endif // _CLIENT_ADD
 			{
 				int ping = (int)( (float)pingsum / (float)numcounted );
 				_snwprintf(val, ARRAYSIZE(val), L"%d", ping);
@@ -355,7 +363,11 @@ bool CCSClientScoreBoardDialog::GetPlayerScoreInfo( int playerIndex, KeyValues *
 		kv->SetString( "class", "" );
 	}
 
+#ifdef _CLIENT_ADD
+	if ( g_PR->GetPing( playerIndex ) < 1 )
+#else
 	if ( g_PR->GetPing( playerIndex ) < 1 || g_PR->GetTeam( playerIndex ) <= TEAM_SPECTATOR )
+#endif // _CLIENT_ADD
 	{
 		if ( g_PR->IsFakePlayer( playerIndex ) )
 		{
