@@ -153,6 +153,11 @@ void CCSClientScoreBoardDialog::UpdateTeamInfo()
 				case TEAM_CT:
 					teamName = vgui::localize()->Find( "#Cstrike_ScoreBoard_CT" );
 					break;
+#ifdef _CLIENT_FIXES
+				case TEAM_SPECTATOR:
+					teamName = vgui::localize()->Find( "#Spectators" );
+					break;
+#endif // _CLIENT_FIXES
 				default:
 					Assert( false );
 					break;
@@ -253,7 +258,11 @@ void CCSClientScoreBoardDialog::AddSection(int teamType, int teamNumber)
 		m_pPlayerList->AddColumnToSection(sectionID, "ping", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_PING_WIDTH));
 
 		// set the section to have the team color
+#ifdef _CLIENT_FIXES
+		if (teamNumber)
+#else
 		if (teamNumber > TEAM_SPECTATOR)
+#endif // _CLIENT_FIXES
 		{
 			if (GameResources())
 				m_pPlayerList->SetSectionFgColor(sectionID, GameResources()->GetTeamColor(teamNumber));

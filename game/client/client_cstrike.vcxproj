@@ -135,7 +135,7 @@ if exist "$(TargetDir)"client.pdb copy "$(TargetDir)"client.pdb "..\..\..\bin_ga
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <AdditionalIncludeDirectories>./;../../public;../../public/tier1;../../vgui2/include;../../vgui2/controls;../shared;../shared/cstrike;./game_controls;./cstrike;./cstrike/vgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>CSTRIKE_DLL;NDEBUG;NO_STRING_T;CLIENT_DLL;WIN32;_WIN32;_WINDOWS;VECTOR;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead;_WIN32;PROTECTED_THINGS_ENABLE;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CLIENT_FIXES;_CLIENT_ADD;CSTRIKE_DLL;NDEBUG;NO_STRING_T;CLIENT_DLL;WIN32;_WIN32;_WINDOWS;VECTOR;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead;PROTECTED_THINGS_ENABLE;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling />
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
