@@ -102,10 +102,8 @@ void CCSClientScoreBoardDialog::InitScoreboardSections()
 //-----------------------------------------------------------------------------
 // Purpose: Used for sorting players
 //-----------------------------------------------------------------------------
-bool CCSClientScoreBoardDialog::CSPlayerSortFunc( vgui::SectionedListPanel *list, int itemID1, int itemID2 )
+bool CCSClientScoreBoardDialog::CSPlayerSortFunc( KeyValues *it1, KeyValues *it2 )
 {
-	KeyValues *it1 = list->GetItemData( itemID1 );
-	KeyValues *it2 = list->GetItemData( itemID2 );
 	Assert( it1 && it2 );
 
 	// first compare score
@@ -128,6 +126,40 @@ bool CCSClientScoreBoardDialog::CSPlayerSortFunc( vgui::SectionedListPanel *list
 	int iPlayerIndex1 = it1->GetInt( "playerIndex" );
 	int iPlayerIndex2 = it2->GetInt( "playerIndex" );
 	return ( iPlayerIndex1 > iPlayerIndex2 );
+}
+
+void CCSClientScoreBoardDialog::CSPlayerSortFunc()
+{
+	CUtlVector<KeyValues*> &teamSorted = m_teamPlayers[0];
+
+	for (int teamIndex = SCORESECTION_TERRORIST; teamIndex <= SCORESECTION_SPECTATOR; ++teamIndex)
+	{
+		CUtlVector<KeyValues*> &teamPlayers = m_teamPlayers[teamIndex];
+
+		for (int i = 0; i < teamPlayers.Count(); ++i)
+		{
+			int insertionPoint = 0;
+			for (; insertionPoint < teamSorted.Count(); ++insertionPoint)
+			{
+				if ( CSPlayerSortFunc(teamPlayers[i], teamSorted[insertionPoint]) )
+					break;
+			}
+
+			if (insertionPoint == teamSorted.Count())
+			{
+				teamSorted.AddToTail(teamPlayers[i]);
+			}
+			else
+			{
+				teamSorted.InsertBefore(insertionPoint, teamPlayers[i]);
+			}
+		}
+
+		teamPlayers.RemoveAll();
+		teamPlayers.Swap(teamSorted);
+		//m_teamPlayers[teamNumber] = m_teamPlayers[0];
+		teamSorted.RemoveAll();
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -256,7 +288,7 @@ void CCSClientScoreBoardDialog::AddSection(int teamType, int teamNumber)
 	int sectionID = GetSectionFromTeamNumber(teamNumber);
 	if (teamType == TYPE_TEAM)
 	{
-		m_pPlayerList->AddSection(sectionID, "", CSPlayerSortFunc);
+		m_pPlayerList->AddSection(sectionID, "");
 
 		// setup the columns
 		m_pPlayerList->AddColumnToSection(sectionID, "name", "", 0, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_NAME_WIDTH));
@@ -298,6 +330,11 @@ int CCSClientScoreBoardDialog::GetSectionFromTeamNumber( int teamNumber )
 	return SCORESECTION_SPECTATOR;
 }
 
+enum {
+	MAX_PLAYERS_PER_TEAM = 16,
+	MAX_SCOREBOARD_PLAYERS = 32
+};
+
 //-----------------------------------------------------------------------------
 // Purpose: Updates the player list
 //-----------------------------------------------------------------------------
@@ -322,18 +359,41 @@ void CCSClientScoreBoardDialog::UpdatePlayerInfo()
 			KeyValues *pKeyValues = new KeyValues( "data" );
 			GetPlayerScoreInfo( playerIndex, pKeyValues );
 
-			int sectionID = GetSectionFromTeamNumber( g_PR->GetTeam( playerIndex ) );
-			int itemID = m_pPlayerList->AddItem(sectionID, pKeyValues);
-			Color clr = g_PR->GetTeamColor( g_PR->GetTeam( playerIndex ) );
-			m_pPlayerList->SetItemFgColor( itemID, clr );
+			CUtlVector<KeyValues*> &teamPlayers = m_teamPlayers[ GetSectionFromTeamNumber( g_PR->GetTeam( playerIndex ) ) ];
+			teamPlayers.AddToTail(pKeyValues);
+		}
+	}
 
-			if ( playerIndex == pLocalPlayer->entindex() )
+	CSPlayerSortFunc();
+
+	int maxPlayers = MAX_SCOREBOARD_PLAYERS;
+	for (int teamIndex = SCORESECTION_TERRORIST; teamIndex <= SCORESECTION_SPECTATOR; ++teamIndex)
+	{
+		CUtlVector<KeyValues*> &teamPlayers = m_teamPlayers[ teamIndex ];
+		int maxPlayersTeam = MAX_PLAYERS_PER_TEAM;
+
+		for (int i = 0; i < teamPlayers.Count(); ++i, --maxPlayersTeam)
+		{
+			bool isLocalPlayer = ( teamPlayers[i]->GetInt("playerIndex") == pLocalPlayer->entindex() );
+
+			if (( maxPlayers > 0 && maxPlayersTeam > 0 ) || ( teamIndex == SCORESECTION_SPECTATOR && isLocalPlayer ))
 			{
-				selectedRow = itemID;	// this is the local player, hilight this row
+				int itemID = m_pPlayerList->AddItem(teamIndex, teamPlayers[i]);
+				Color clr = g_PR->GetTeamColor( teamIndex == SCORESECTION_SPECTATOR ? TEAM_SPECTATOR : (teamIndex == SCORESECTION_TERRORIST ? TEAM_TERRORIST : TEAM_CT) );
+				m_pPlayerList->SetItemFgColor( itemID, clr );
+
+				if ( isLocalPlayer )
+				{
+					selectedRow = itemID;	// this is the local player, hilight this row
+				}
+
+				--maxPlayers;
 			}
 
-			pKeyValues->deleteThis();
+			teamPlayers[i]->deleteThis();
 		}
+
+		teamPlayers.RemoveAll();
 	}
 
 	if ( selectedRow != -1 )

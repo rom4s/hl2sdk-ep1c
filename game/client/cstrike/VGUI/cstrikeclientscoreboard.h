@@ -41,7 +41,9 @@ private:
 	virtual void AddHeader(); // add the start header of the scoreboard
 	virtual void AddSection(int teamType, int teamNumber); // add a new section header for a team
 
-	static bool CSPlayerSortFunc( vgui::SectionedListPanel *list, int itemID1, int itemID2 );
+	static bool CSPlayerSortFunc( KeyValues *it1, KeyValues *it2 );
+	void CSPlayerSortFunc();
+
 	int GetSectionFromTeamNumber( int teamNumber );
 
 	enum
@@ -56,6 +58,8 @@ private:
 	// rounded corners
 	Color					 m_bgColor;
 	Color					 m_borderColor;
+
+	CUtlVector<KeyValues*> m_teamPlayers[TEAM_MAXCOUNT];
 };
 
 
