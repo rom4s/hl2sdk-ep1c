@@ -22,28 +22,32 @@
 #include <vgui_controls/SectionedListPanel.h>
 
 #include "voice_status.h"
-/*#include "vgui_avatarimage.h"*/
 
 using namespace vgui;
+
+enum EScoreboardSections
+{
+	SCORESECTION_TERRORIST = 1,
+	SCORESECTION_CT,
+	SCORESECTION_SPECTATOR
+};
+
+#ifdef _CLIENT_FIXES
+static char s_szServerName[256] = "";
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
 CCSClientScoreBoardDialog::CCSClientScoreBoardDialog( IViewPort *pViewPort ) : CClientScoreBoardDialog( pViewPort )
 {
-	m_pPlayerListT = new SectionedListPanel( this, "PlayerListT" );
-	m_pPlayerListCT = new SectionedListPanel( this, "PlayerListCT" );
-
-	m_pPlayerCountLabel_T = new Label( this, "T_PlayerCount", "" );
-	m_pScoreLabel_T = new Label( this, "T_Score", "" );
-	m_pPingLabel_T = new Label( this, "T_Latency", "" );
-	m_pPlayerCountLabel_CT = new Label( this, "CT_PlayerCount", "" );
-	m_pScoreLabel_CT = new Label( this, "CT_Score", "" );
-	m_pPingLabel_CT = new Label( this, "CT_Latency", "" );
-
-	ListenForGameEvent( "server_spawn" );
-	SetDialogVariable( "server", "" );
-	SetVisible( false );
+#ifdef _CLIENT_FIXES
+	Panel *control = FindChildByName( "ServerName" );
+	if (control)
+	{
+		PostMessage(control, new KeyValues( "SetText", "text", s_szServerName ));
+	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -53,6 +57,20 @@ CCSClientScoreBoardDialog::~CCSClientScoreBoardDialog()
 {
 }
 
+#ifdef _CLIENT_FIXES
+void CCSClientScoreBoardDialog::FireGameEvent( IGameEvent *event )
+{
+	BaseClass::FireGameEvent( event );
+
+	const char * type = event->GetName();
+
+	if (Q_strcmp(type, "server_spawn") == 0)
+	{
+		Q_strncpy(s_szServerName, event->GetString("hostname"), sizeof(s_szServerName));
+	}
+}
+#endif
+
 //-----------------------------------------------------------------------------
 // Purpose: Paint background for rounded corners
 //-----------------------------------------------------------------------------
@@ -61,7 +79,7 @@ void CCSClientScoreBoardDialog::PaintBackground()
 	int wide, tall;
 	GetSize( wide, tall );
 
-	DrawBackground( m_bgColor, wide, tall );
+	DrawBackground( m_bgColor, wide, tall, true );
 }
 
 //-----------------------------------------------------------------------------
@@ -72,7 +90,7 @@ void CCSClientScoreBoardDialog::PaintBorder()
 	int wide, tall;
 	GetSize( wide, tall );
 
-	DrawBorder( m_borderColor, wide, tall );
+	DrawBorder( m_borderColor, wide, tall, true );
 }
 
 //-----------------------------------------------------------------------------
@@ -82,70 +100,35 @@ void CCSClientScoreBoardDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
 
-	LoadControlSettings( "resource/UI/scoreboard.res" );
-
 	m_bgColor = GetSchemeColor( "SectionedListPanel.BgColor", GetBgColor(), pScheme );
 	m_borderColor = pScheme->GetColor( "FgColor", Color( 0, 0, 0, 0 ) );
-
-	SetBgColor( Color( 0, 0, 0, 0 ) );
+	
+	SetBgColor( m_bgColor );
 	SetBorder( pScheme->GetBorder( "BaseBorder" ) );
-
-	if ( m_pPlayerListT )
-	{
-		//m_pPlayerListT->SetImageList( m_pImageList, false );
-		m_pPlayerListT->SetBgColor( Color( 255, 255, 0, 255 ) );
-		m_pPlayerListT->SetBorder( NULL );
-		m_pPlayerListT->SetVisible( true );
-	}
-
-	if ( m_pPlayerListCT )
-	{
-		//m_pPlayerListCT->SetImageList( m_pImageList, false );
-		m_pPlayerListCT->SetBgColor( Color( 255, 0, 255, 255 ) );
-		m_pPlayerListCT->SetBorder( NULL );
-		m_pPlayerListCT->SetVisible( true );
-	}
-
-	// turn off the default player list since we have our own
-	if ( m_pPlayerList )
-	{
-		m_pPlayerList->SetVisible( false );
-	}
-
-	if ( m_pPlayerCountLabel_T && m_pScoreLabel_T && m_pPingLabel_T )
-	{
-		m_pPlayerCountLabel_T->SetFgColor( COLOR_RED );
-		m_pScoreLabel_T->SetFgColor( COLOR_RED );
-		m_pPingLabel_T->SetFgColor( COLOR_RED );
-	}
-
-	if ( m_pPlayerCountLabel_CT && m_pScoreLabel_CT && m_pPingLabel_CT )
-	{
-		m_pPlayerCountLabel_CT->SetFgColor( COLOR_BLUE );
-		m_pScoreLabel_CT->SetFgColor( COLOR_BLUE );
-		m_pPingLabel_CT->SetFgColor( COLOR_BLUE );
-	}
-
-	SetVisible( false );
-	Reset();
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Resets the scoreboard panel
+// Purpose: sets up base sections
 //-----------------------------------------------------------------------------
-void CCSClientScoreBoardDialog::Reset()
+void CCSClientScoreBoardDialog::InitScoreboardSections()
 {
-	InitPlayerList( m_pPlayerListT, TEAM_TERRORIST );
-	InitPlayerList( m_pPlayerListCT, TEAM_CT );
+	m_pPlayerList->SetBgColor( Color(0, 0, 0, 0) );
+	m_pPlayerList->SetBorder(NULL);
+
+	// fill out the structure of the scoreboard
+	AddHeader();
+
+	// add the team sections
+	AddSection( TYPE_TEAM, TEAM_TERRORIST );
+	AddSection( TYPE_TEAM, TEAM_CT );
+	AddSection( TYPE_TEAM, TEAM_SPECTATOR );
 }
 
 //-----------------------------------------------------------------------------
 // Purpose: Used for sorting players
 //-----------------------------------------------------------------------------
-bool CCSClientScoreBoardDialog::CSPlayerSortFunc( vgui::SectionedListPanel *list, int itemID1, int itemID2 )
+bool CCSClientScoreBoardDialog::CSPlayerSortFunc( KeyValues *it1, KeyValues *it2 )
 {
-	KeyValues *it1 = list->GetItemData( itemID1 );
-	KeyValues *it2 = list->GetItemData( itemID2 );
 	Assert( it1 && it2 );
 
 	// first compare score
@@ -170,47 +153,37 @@ bool CCSClientScoreBoardDialog::CSPlayerSortFunc( vgui::SectionedListPanel *list
 	return ( iPlayerIndex1 > iPlayerIndex2 );
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: Inits the player list in a list panel
-//-----------------------------------------------------------------------------
-void CCSClientScoreBoardDialog::InitPlayerList( SectionedListPanel *pPlayerList, int teamNumber )
+void CCSClientScoreBoardDialog::CSPlayerSortFunc()
 {
-	pPlayerList->SetVerticalScrollbar( false );
-	pPlayerList->RemoveAll();
-	pPlayerList->RemoveAllSections();
-	pPlayerList->AddSection( 0, "Players", CSPlayerSortFunc );
-	pPlayerList->SetSectionAlwaysVisible( 0, true );
-	pPlayerList->SetSectionFgColor( 0, Color( 255, 255, 255, 255 ) );
-	pPlayerList->SetBgColor( Color( 0, 0, 0, 0 ) );
-	pPlayerList->SetBorder( NULL );
+	CUtlVector<KeyValues*> &teamSorted = m_teamPlayers[0];
 
-	// set the section to have the team color
-	if ( teamNumber && GameResources() )
+	for (int teamIndex = SCORESECTION_TERRORIST; teamIndex <= SCORESECTION_SPECTATOR; ++teamIndex)
 	{
-		pPlayerList->SetSectionFgColor( 0, GameResources()->GetTeamColor( teamNumber ) );
+		CUtlVector<KeyValues*> &teamPlayers = m_teamPlayers[teamIndex];
+
+		for (int i = 0; i < teamPlayers.Count(); ++i)
+		{
+			int insertionPoint = 0;
+			for (; insertionPoint < teamSorted.Count(); ++insertionPoint)
+			{
+				if ( CSPlayerSortFunc(teamPlayers[i], teamSorted[insertionPoint]) )
+					break;
+			}
+
+			if (insertionPoint == teamSorted.Count())
+			{
+				teamSorted.AddToTail(teamPlayers[i]);
+			}
+			else
+			{
+				teamSorted.InsertBefore(insertionPoint, teamPlayers[i]);
+			}
+		}
+
+		teamPlayers.RemoveAll();
+		teamPlayers.Swap(teamSorted);
+		teamSorted.RemoveAll();
 	}
-
-	// Avatars are always displayed at 32x32 regardless of resolution
-	//pPlayerList->AddColumnToSection( 0, "avatar", "", SectionedListPanel::COLUMN_IMAGE | SectionedListPanel::COLUMN_CENTER, m_iAvatarWidth );
-	pPlayerList->AddColumnToSection( 0, "name", "", 0, scheme()->GetProportionalScaledValueEx( GetScheme(), 220 ) ); // m_iNameWidth
-	pPlayerList->AddColumnToSection( 0, "class", "" , 0, scheme()->GetProportionalScaledValueEx( GetScheme(), 56 ) ); // m_iClassWidth
-	pPlayerList->AddColumnToSection( 0, "frags", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx( GetScheme(), 40 ) ); // m_iScoreWidth
-	pPlayerList->AddColumnToSection( 0, "deaths", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx( GetScheme(), 46 ) ); // m_iDeathWidth
-	pPlayerList->AddColumnToSection( 0, "ping", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx( GetScheme(), 46 ) ); // m_iPingWidth
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Updates the dialog
-//-----------------------------------------------------------------------------
-void CCSClientScoreBoardDialog::Update()
-{
-	UpdateTeamInfo();
-	UpdatePlayerList();
-	UpdateSpectatorList();
-	MoveToCenterOfScreen();
-
-	// update every second
-	m_fNextUpdateTime = gpGlobals->curtime + 1.0f; 
 }
 
 //-----------------------------------------------------------------------------
@@ -219,31 +192,28 @@ void CCSClientScoreBoardDialog::Update()
 void CCSClientScoreBoardDialog::UpdateTeamInfo()
 {
 	// update the team sections in the scoreboard
-	for ( int teamIndex = TEAM_TERRORIST; teamIndex <= TEAM_CT; teamIndex++ )
+	for ( int teamIndex = TEAM_SPECTATOR; teamIndex <= TEAM_CT; teamIndex++ )
 	{
 		wchar_t *teamName = NULL;
 		int sectionID = 0;
 		C_Team *team = GetGlobalTeam( teamIndex );
+
 		if ( team )
 		{
-			sectionID = 3;//GetSectionFromTeamNumber( i );
-			// choose dialog variables to set depending on team
-			const char *pDialogVarTeamScore = NULL;
-			const char *pDialogVarTeamPlayerCount = NULL;
-			const char *pDialogVarTeamPing = NULL;
+			sectionID = GetSectionFromTeamNumber( teamIndex );
+
 			switch ( teamIndex ) {
 				case TEAM_TERRORIST:
 					teamName = vgui::localize()->Find( "#Cstrike_ScoreBoard_Ter" );
-					pDialogVarTeamScore = "t_teamscore";
-					pDialogVarTeamPlayerCount = "t_teamplayercount";
-					pDialogVarTeamPing = "t_teamping";
 					break;
 				case TEAM_CT:
 					teamName = vgui::localize()->Find( "#Cstrike_ScoreBoard_CT" );
-					pDialogVarTeamScore = "ct_teamscore";
-					pDialogVarTeamPlayerCount = "ct_teamplayercount";
-					pDialogVarTeamPing = "ct_teamping";
 					break;
+#ifdef _CLIENT_FIXES
+				case TEAM_SPECTATOR:
+					teamName = vgui::localize()->Find( "#Spectators" );
+					break;
+#endif // _CLIENT_FIXES
 				default:
 					Assert( false );
 					break;
@@ -252,34 +222,44 @@ void CCSClientScoreBoardDialog::UpdateTeamInfo()
 			// update # of players on each team
 			wchar_t name[64];
 			wchar_t string1[1024];
-			wchar_t wNumPlayers[6];
-			_snwprintf( wNumPlayers, ARRAYSIZE( wNumPlayers ), L"%i", team->Get_Number_Players() );
+			wchar_t val[6];
+
+			_snwprintf( val, ARRAYSIZE( val ), L"%i", team->Get_Number_Players() );
+
 			if ( !teamName && team )
 			{
 				vgui::localize()->ConvertANSIToUnicode( team->Get_Name(), name, sizeof( name ) );
 				teamName = name;
 			}
+
 			if ( team->Get_Number_Players() == 1 )
 			{
-				vgui::localize()->ConstructString( string1, sizeof(string1), vgui::localize()->Find( "#Cstrike_ScoreBoard_Player" ), 2, teamName, wNumPlayers );
+				vgui::localize()->ConstructString( string1, sizeof(string1), vgui::localize()->Find( "#Cstrike_ScoreBoard_Player" ), 2, teamName, val );
 			}
 			else
 			{
-				vgui::localize()->ConstructString( string1, sizeof(string1), vgui::localize()->Find( "#Cstrike_ScoreBoard_Players" ), 2, teamName, wNumPlayers );
+				vgui::localize()->ConstructString( string1, sizeof(string1), vgui::localize()->Find( "#Cstrike_ScoreBoard_Players" ), 2, teamName, val );
 			}
 
 			// set # of players for team in dialog
-			//SetDialogVariable( pDialogVarTeamPlayerCount, string1 );
-			m_pPlayerList->ModifyColumn(sectionID, pDialogVarTeamPlayerCount, string1);
+			m_pPlayerList->ModifyColumn(sectionID, "name", string1);
 
-			// set team score in dialog
-			SetDialogVariable( pDialogVarTeamScore, team->Get_Score() );			
+			if (teamIndex != TEAM_SPECTATOR)
+			{
+				// set team score in dialog
+				_snwprintf(val, ARRAYSIZE(val), L"%i", team->Get_Score());
+				m_pPlayerList->ModifyColumn(sectionID, "frags", val);
+			}
 
 			int pingsum = 0;
 			int numcounted = 0;
 			for( int playerIndex = 1 ; playerIndex <= MAX_PLAYERS; playerIndex++ )
 			{
-				if( g_PR->IsConnected( playerIndex ) && g_PR->GetTeam( playerIndex ) == teamIndex )
+#ifdef _CLIENT_ADD
+				if( g_PR->IsConnected( playerIndex ) && GetSectionFromTeamNumber( g_PR->GetTeam( playerIndex ) ) == sectionID )
+#else
+				if( teamIndex > TEAM_SPECTATOR && g_PR->IsConnected( playerIndex ) && g_PR->GetTeam( playerIndex ) == teamIndex )
+#endif // _CLIENT_ADD
 				{
 					int ping = g_PR->GetPing( playerIndex );
 
@@ -291,27 +271,101 @@ void CCSClientScoreBoardDialog::UpdateTeamInfo()
 				}
 			}
 
+#ifdef _CLIENT_ADD
 			if ( numcounted > 0 )
+#else
+			if ( numcounted > 0	&& teamIndex > TEAM_SPECTATOR )
+#endif // _CLIENT_ADD
 			{
 				int ping = (int)( (float)pingsum / (float)numcounted );
-				SetDialogVariable( pDialogVarTeamPing, ping );		
+				_snwprintf(val, ARRAYSIZE(val), L"%d", ping);
+				m_pPlayerList->ModifyColumn(sectionID, "ping", val);
 			}
 			else
 			{
-				SetDialogVariable( pDialogVarTeamPing, "" );	
+				m_pPlayerList->ModifyColumn(sectionID, "ping", L"");
 			}
 		}
 	}
 }
 
 //-----------------------------------------------------------------------------
+// Purpose: adds the top header of the scoreboars
+//-----------------------------------------------------------------------------
+void CCSClientScoreBoardDialog::AddHeader()
+{
+	// add the top header
+	m_pPlayerList->AddSection(0, "");
+	m_pPlayerList->SetSectionAlwaysVisible(0);
+	m_pPlayerList->AddColumnToSection(0, "name", "", 0, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_NAME_WIDTH));
+	m_pPlayerList->AddColumnToSection(0, "class", "", 0, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_CLASS_WIDTH));
+	m_pPlayerList->AddColumnToSection(0, "frags", "#PlayerScore", 0 | SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_SCORE_WIDTH));
+	m_pPlayerList->AddColumnToSection(0, "deaths", "#PlayerDeath", 0 | SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_DEATH_WIDTH));
+	m_pPlayerList->AddColumnToSection(0, "ping", "#PlayerPing", 0 | SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_PING_WIDTH));
+}
+
+//-----------------------------------------------------------------------------
+// Purpose: Adds a new section to the scoreboard (i.e the team header)
+//-----------------------------------------------------------------------------
+void CCSClientScoreBoardDialog::AddSection(int teamType, int teamNumber)
+{
+	int sectionID = GetSectionFromTeamNumber(teamNumber);
+	if (teamType == TYPE_TEAM)
+	{
+		m_pPlayerList->AddSection(sectionID, "");
+
+		// setup the columns
+		m_pPlayerList->AddColumnToSection(sectionID, "name", "", 0, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_NAME_WIDTH));
+		m_pPlayerList->AddColumnToSection(sectionID, "class", "", 0, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_CLASS_WIDTH));
+		m_pPlayerList->AddColumnToSection(sectionID, "frags", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_SCORE_WIDTH));
+		m_pPlayerList->AddColumnToSection(sectionID, "deaths", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_DEATH_WIDTH));
+		m_pPlayerList->AddColumnToSection(sectionID, "ping", "", SectionedListPanel::COLUMN_RIGHT, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_PING_WIDTH));
+
+		// set the section to have the team color
+#ifdef _CLIENT_FIXES
+		if (teamNumber)
+#else
+		if (teamNumber > TEAM_SPECTATOR)
+#endif // _CLIENT_FIXES
+		{
+			if (GameResources())
+				m_pPlayerList->SetSectionFgColor(sectionID, GameResources()->GetTeamColor(teamNumber));
+		}
+
+		m_pPlayerList->SetSectionAlwaysVisible(sectionID);
+	}
+	else if (teamType == TYPE_SPECTATORS)
+	{
+		m_pPlayerList->AddSection(sectionID, "");
+		m_pPlayerList->AddColumnToSection(sectionID, "name", "#Spectators", 0, scheme()->GetProportionalScaledValueEx(GetScheme(), CSTRIKE_NAME_WIDTH));
+		m_pPlayerList->AddColumnToSection(sectionID, "class", "", 0, scheme()->GetProportionalScaledValueEx(GetScheme(), 100));
+	}
+}
+
+int CCSClientScoreBoardDialog::GetSectionFromTeamNumber( int teamNumber )
+{
+	switch ( teamNumber )
+	{
+	case TEAM_TERRORIST:
+		return SCORESECTION_TERRORIST;
+	case TEAM_CT:
+		return SCORESECTION_CT;
+	}
+	return SCORESECTION_SPECTATOR;
+}
+
+enum {
+	MAX_PLAYERS_PER_TEAM = 16,
+	MAX_SCOREBOARD_PLAYERS = 32
+};
+
+//-----------------------------------------------------------------------------
 // Purpose: Updates the player list
 //-----------------------------------------------------------------------------
-void CCSClientScoreBoardDialog::UpdatePlayerList()
+void CCSClientScoreBoardDialog::UpdatePlayerInfo()
 {
-	m_pPlayerListT->RemoveAll();
-	m_pPlayerListCT->RemoveAll();
-
+	m_pPlayerList->RemoveAll();
+	
 	C_CS_PlayerResource *cs_PR = dynamic_cast<C_CS_PlayerResource *>( g_PR );
 	if ( !cs_PR )
 		return;
@@ -320,122 +374,55 @@ void CCSClientScoreBoardDialog::UpdatePlayerList()
 	if ( !pLocalPlayer )
 		return;
 
+	int selectedRow = -1;
+
 	for( int playerIndex = 1 ; playerIndex <= MAX_PLAYERS; playerIndex++ )
 	{
 		if( g_PR->IsConnected( playerIndex ) )
 		{
-			SectionedListPanel *pPlayerList = NULL;
-			switch ( g_PR->GetTeam( playerIndex ) )
-			{
-			case TEAM_TERRORIST:
-				pPlayerList = m_pPlayerListT;
-				break;
-			case TEAM_CT:
-				pPlayerList = m_pPlayerListCT;
-				break;
-			}
-
-			if ( pPlayerList == NULL )
-			{
-				continue;			
-			}
-
 			KeyValues *pKeyValues = new KeyValues( "data" );
 			GetPlayerScoreInfo( playerIndex, pKeyValues );
 
-			int itemID = pPlayerList->AddItem( 0, pKeyValues );
-			Color clr = g_PR->GetTeamColor( g_PR->GetTeam( playerIndex ) );
-			pPlayerList->SetItemFgColor( itemID, clr );
-
-			pKeyValues->deleteThis();
+			CUtlVector<KeyValues*> &teamPlayers = m_teamPlayers[ GetSectionFromTeamNumber( g_PR->GetTeam( playerIndex ) ) ];
+			teamPlayers.AddToTail(pKeyValues);
 		}
 	}
-}
 
-//-----------------------------------------------------------------------------
-// Purpose: Updates the spectator list
-//-----------------------------------------------------------------------------
-void CCSClientScoreBoardDialog::UpdateSpectatorList()
-{
-	char szSpectatorList[512] = "" ;
-	int nSpectators = 0;
-	for( int playerIndex = 1 ; playerIndex <= MAX_PLAYERS; playerIndex++ )
+	CSPlayerSortFunc();
+
+	int maxPlayers = MAX_SCOREBOARD_PLAYERS;
+	for (int teamIndex = SCORESECTION_TERRORIST; teamIndex <= SCORESECTION_SPECTATOR; ++teamIndex)
 	{
-		if ( ShouldShowAsSpectator( playerIndex ) )
+		CUtlVector<KeyValues*> &teamPlayers = m_teamPlayers[ teamIndex ];
+		int maxPlayersTeam = MAX_PLAYERS_PER_TEAM;
+
+		for (int i = 0; i < teamPlayers.Count(); ++i, --maxPlayersTeam)
 		{
-			if ( nSpectators > 0 )
+			bool isLocalPlayer = ( teamPlayers[i]->GetInt("playerIndex") == pLocalPlayer->entindex() );
+
+			if (( maxPlayers > 0 && maxPlayersTeam > 0 ) || ( teamIndex == SCORESECTION_SPECTATOR && isLocalPlayer ))
 			{
-				Q_strncat( szSpectatorList, ", ", ARRAYSIZE( szSpectatorList ) );
+				int itemID = m_pPlayerList->AddItem(teamIndex, teamPlayers[i]);
+				Color clr = g_PR->GetTeamColor( teamIndex == SCORESECTION_SPECTATOR ? TEAM_SPECTATOR : (teamIndex == SCORESECTION_TERRORIST ? TEAM_TERRORIST : TEAM_CT) );
+				m_pPlayerList->SetItemFgColor( itemID, clr );
+
+				if ( isLocalPlayer )
+				{
+					selectedRow = itemID;	// this is the local player, hilight this row
+				}
+
+				--maxPlayers;
 			}
 
-			Q_strncat( szSpectatorList, g_PR->GetPlayerName( playerIndex ), ARRAYSIZE( szSpectatorList ) );
-			nSpectators++;
+			teamPlayers[i]->deleteThis();
 		}
+
+		teamPlayers.RemoveAll();
 	}
 
-	wchar_t wzSpectators[512] = L"";
-	if ( nSpectators > 0 )
+	if ( selectedRow != -1 )
 	{
-		const char *pchFormat = ( 1 == nSpectators ? "#ScoreBoard_Spectator" : "#ScoreBoard_Spectators" );
-
-		wchar_t wzSpectatorCount[16];
-		wchar_t wzSpectatorList[1024];
-		_snwprintf( wzSpectatorCount, ARRAYSIZE( wzSpectatorCount ), L"%i", nSpectators );
-		vgui::localize()->ConvertANSIToUnicode( szSpectatorList, wzSpectatorList, sizeof( wzSpectatorList ) );
-		vgui::localize()->ConstructString( wzSpectators, sizeof(wzSpectators), vgui::localize()->Find( pchFormat), 2, wzSpectatorCount, wzSpectatorList );
-	}
-
-	SetDialogVariable( "spectators", wzSpectators );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Returns whether the specified player index is a spectator
-//-----------------------------------------------------------------------------
-bool CCSClientScoreBoardDialog::ShouldShowAsSpectator( int iPlayerIndex )
-{
-	C_CS_PlayerResource *cs_PR = dynamic_cast<C_CS_PlayerResource *>( g_PR );
-	if ( !cs_PR )
-		return false;
-
-	// see if player is connected
-	if ( cs_PR->IsConnected( iPlayerIndex ) ) 
-	{
-		// either spectator or unassigned team should show in spectator list
-		int iTeam = cs_PR->GetTeam( iPlayerIndex );
-		if ( TEAM_SPECTATOR == iTeam || TEAM_UNASSIGNED == iTeam )
-			return true;
-	}
-	return false;
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Event handler
-//-----------------------------------------------------------------------------
-void CCSClientScoreBoardDialog::FireGameEvent( IGameEvent *event )
-{
-	const char *type = event->GetName();
-
-	if ( 0 == Q_strcmp( type, "server_spawn" ) )
-	{		
-		// set server name in scoreboard
-		const char *hostname = event->GetString( "hostname" );
-		wchar_t wzHostName[256];
-		wchar_t wzServerLabel[256];
-		vgui::localize()->ConvertANSIToUnicode( hostname, wzHostName, sizeof( wzHostName ) );
-		vgui::localize()->ConstructString( wzServerLabel, sizeof(wzServerLabel), vgui::localize()->Find( "#Scoreboard_Server" ), 1, wzHostName );
-		//SetDialogVariable( "server", wzServerLabel );
-
-		Panel *control = FindChildByName( "ServerName" );
-		if ( control )
-		{
-			PostMessage( control, new KeyValues( "SetText", "text", wzServerLabel ) );
-			control->MoveToFront();
-		}
-	}
-
-	if( IsVisible() )
-	{
-		Update();
+		m_pPlayerList->SetSelectedItem(selectedRow);
 	}
 }
 
@@ -449,16 +436,22 @@ bool CCSClientScoreBoardDialog::GetPlayerScoreInfo( int playerIndex, KeyValues *
 	int bufsize = strlen( oldName ) * 2 + 1;
 	char *newName = (char *)_alloca( bufsize );
 	UTIL_MakeSafeName( oldName, newName, bufsize );
+
 	kv->SetString( "name", newName );
-
 	kv->SetInt( "playerIndex", playerIndex );
-	kv->SetInt( "frags", g_PR->GetPlayerScore( playerIndex ) );
-	kv->SetInt( "deaths", g_PR->GetDeaths( playerIndex ) );
-	kv->SetString( "class", "" );
 
-	//UpdatePlayerAvatar( playerIndex, kv );
-	
+	if (g_PR->GetTeam( playerIndex ) > TEAM_SPECTATOR)
+	{
+		kv->SetInt( "frags", g_PR->GetPlayerScore( playerIndex ) );
+		kv->SetInt( "deaths", g_PR->GetDeaths( playerIndex ) );
+		kv->SetString( "class", "" );
+	}
+
+#ifdef _CLIENT_ADD
 	if ( g_PR->GetPing( playerIndex ) < 1 )
+#else
+	if ( g_PR->GetPing( playerIndex ) < 1 || g_PR->GetTeam( playerIndex ) <= TEAM_SPECTATOR )
+#endif // _CLIENT_ADD
 	{
 		if ( g_PR->IsFakePlayer( playerIndex ) )
 		{
@@ -492,7 +485,12 @@ bool CCSClientScoreBoardDialog::GetPlayerScoreInfo( int playerIndex, KeyValues *
 	{
 		// show #spectators in class field, it's transmitted as player's score
 		char numspecs[32];
+#ifdef _CLIENT_FIXES
+		vgui::localize()->ConvertUnicodeToANSI( vgui::localize()->Find("#Spectators"), numspecs, sizeof(numspecs) );
+		Q_snprintf(numspecs, sizeof(numspecs), "%s: %i", numspecs, m_HLTVSpectators);
+#else
 		Q_snprintf( numspecs, sizeof( numspecs ), "%i Spectators", m_HLTVSpectators );
+#endif
 		kv->SetString( "class", numspecs );
 	}
 	else if ( !g_PR->IsAlive( playerIndex ) && g_PR->GetTeam( playerIndex ) > TEAM_SPECTATOR )
