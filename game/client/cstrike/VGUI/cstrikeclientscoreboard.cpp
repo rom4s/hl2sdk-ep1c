@@ -32,11 +32,22 @@ enum EScoreboardSections
 	SCORESECTION_SPECTATOR
 };
 
+#ifdef _CLIENT_FIXES
+static char s_szServerName[256] = "";
+#endif
+
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
 CCSClientScoreBoardDialog::CCSClientScoreBoardDialog( IViewPort *pViewPort ) : CClientScoreBoardDialog( pViewPort )
 {
+#ifdef _CLIENT_FIXES
+	Panel *control = FindChildByName( "ServerName" );
+	if (control)
+	{
+		PostMessage(control, new KeyValues( "SetText", "text", s_szServerName ));
+	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -45,6 +56,20 @@ CCSClientScoreBoardDialog::CCSClientScoreBoardDialog( IViewPort *pViewPort ) : C
 CCSClientScoreBoardDialog::~CCSClientScoreBoardDialog()
 {
 }
+
+#ifdef _CLIENT_FIXES
+void CCSClientScoreBoardDialog::FireGameEvent( IGameEvent *event )
+{
+	BaseClass::FireGameEvent( event );
+
+	const char * type = event->GetName();
+
+	if (Q_strcmp(type, "server_spawn") == 0)
+	{
+		Q_strncpy(s_szServerName, event->GetString("hostname"), sizeof(s_szServerName));
+	}
+}
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Paint background for rounded corners
@@ -157,7 +182,6 @@ void CCSClientScoreBoardDialog::CSPlayerSortFunc()
 
 		teamPlayers.RemoveAll();
 		teamPlayers.Swap(teamSorted);
-		//m_teamPlayers[teamNumber] = m_teamPlayers[0];
 		teamSorted.RemoveAll();
 	}
 }

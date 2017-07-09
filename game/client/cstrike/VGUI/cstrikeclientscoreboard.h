@@ -26,6 +26,10 @@ public:
 	CCSClientScoreBoardDialog( IViewPort *pViewPort );
 	~CCSClientScoreBoardDialog();
 
+#ifdef _CLIENT_FIXES
+	virtual void FireGameEvent( IGameEvent *event );
+#endif
+
 protected:
 	virtual void InitScoreboardSections();
 	virtual void UpdateTeamInfo();
