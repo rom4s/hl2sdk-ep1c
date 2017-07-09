@@ -485,7 +485,12 @@ bool CCSClientScoreBoardDialog::GetPlayerScoreInfo( int playerIndex, KeyValues *
 	{
 		// show #spectators in class field, it's transmitted as player's score
 		char numspecs[32];
+#ifdef _CLIENT_FIXES
+		vgui::localize()->ConvertUnicodeToANSI( vgui::localize()->Find("#Spectators"), numspecs, sizeof(numspecs) );
+		Q_snprintf(numspecs, sizeof(numspecs), "%s: %i", numspecs, m_HLTVSpectators);
+#else
 		Q_snprintf( numspecs, sizeof( numspecs ), "%i Spectators", m_HLTVSpectators );
+#endif
 		kv->SetString( "class", numspecs );
 	}
 	else if ( !g_PR->IsAlive( playerIndex ) && g_PR->GetTeam( playerIndex ) > TEAM_SPECTATOR )
