@@ -625,7 +625,7 @@ CBaseHudChat::CBaseHudChat( const char *pElementName )
 	vgui::HScheme scheme = vgui::scheme()->LoadSchemeFromFileEx( enginevgui->GetPanel( PANEL_CLIENTDLL ), "resource/ChatScheme.res", "ChatScheme" ); // Edit! ClientScheme
 	SetScheme(scheme);
 
-	//vgui::localize()->AddFile( "resource/chat_%language%.txt" );
+	vgui::localize()->AddFile( vgui::filesystem(), "resource/chat_%language%.txt" );
 
 	m_nMessageMode = 0;
 
